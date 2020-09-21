@@ -1,2 +1,7 @@
 server:
     port: 8080
+  
+aws:
+    s3:
+        region: ${S3_REGION}
+        bucketName: ${S3_BUCKET_NAME}
