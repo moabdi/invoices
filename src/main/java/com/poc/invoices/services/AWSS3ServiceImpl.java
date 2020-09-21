@@ -49,7 +49,15 @@ public class AWSS3ServiceImpl implements AWSS3Service {
     @Async
     public byte[] download(String fileName, String bucketName) {
         LOGGER.info("File download in progress...");
-        return null;
+        byte[] content = null;
+        try {
+            S3Object s3Object = amazonS3.getObject(bucketName, fileName);
+            content = IOUtils.toByteArray(s3Object.getObjectContent());
+            s3Object.close();
+        } catch (Exception e) {
+            LOGGER.error("Couldn't download the file from Amazon S3", e);
+        }
+        return content;
     }
 
 }
