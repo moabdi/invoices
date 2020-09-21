@@ -31,6 +31,17 @@ public class AWSS3ServiceImpl implements AWSS3Service {
     @Async
     public void upload(File file, String bucketName) {
         LOGGER.info("File upload in progress...");
+        try {
+            amazonS3.putObject(new PutObjectRequest(bucketName, file.getName(), file));
+        } catch (AmazonServiceException e) {
+            LOGGER.error("Amazon S3 couldn't upload", e);
+            throw e;
+        } catch (SdkClientException e) {
+            LOGGER.error("Couldn't parse the response from Amazon S3", e);
+            throw e;
+        }
+
+        LOGGER.info("File download in progress...");
     }
 
 
